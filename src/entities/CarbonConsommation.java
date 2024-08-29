@@ -11,7 +11,7 @@ public class CarbonConsommation {
         this.carbonAmount = carbonAmount;
     }
 
-    // Getters et setters
+
     public LocalDate getDate() {
         return date;
     }
@@ -19,11 +19,9 @@ public class CarbonConsommation {
     public void setDate(LocalDate date) {
         this.date = date;
     }
-
     public double getCarbonAmount() {
         return carbonAmount;
     }
-
     public void setCarbonAmount(double carbonAmount) {
         this.carbonAmount = carbonAmount;
     }
