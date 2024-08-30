@@ -6,8 +6,6 @@ public class Main {
         GestionUtilisateur gestionUtilisateur = new GestionUtilisateur();
         Menu menu = new Menu(gestionUtilisateur);
         menu.MenuPrincipal();
-
-
     }
 }
 

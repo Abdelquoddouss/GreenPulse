@@ -3,8 +3,8 @@ package affichage;
 import entities.Utilisateur;
 import services.GestionUtilisateur;
 
-import java.util.List;
-import java.util.Scanner;
+ import java.util.List;
+ import java.util.Scanner;
 
 public class Menu {
 
@@ -16,29 +16,34 @@ public class Menu {
 
     public void MenuPrincipal(){
         Scanner scanner = new Scanner(System.in);
-        int choix;
+        String choix;
+        boolean continuer = true;
+
 
         do {
             System.out.println("=== Menu Principal ===");
             System.out.println("1. Créer un nouvel utilisateur");
             System.out.println("2. Afficher tous les utilisateurs");
-            System.out.println("3. Quitter");
-            System.out.print("Entrez votre choix : ");
-            choix = scanner.nextInt();
+            System.out.println("3. Modifier un utilisateur");
+            System.out.println("4. Supprimmer un utilisateur");
+            System.out.println("5. Quitter");
+            System.out.print("Entrez votre choix (1-5) : ");
+            choix = String.valueOf(scanner.nextLine());
             switch (choix) {
-                case 1:
+                case "1":
                     creerNouvelUtilisateur();
                     break;
-                case 2:
+                case "2":
                     afficherTousLesUtilisateurs();
                     break;
-                case 3:
+                case "5":
                     System.out.println("Merci d'avoir utilisé l'application !");
+                    continuer = false;
                     break;
                 default:
-                    System.out.println("Choix invalide, veuillez réessayer.");
+                    System.out.println("Choix invalide, veuillez entrer un chiffre entre 1 et 5.");
             }
-        } while (choix != 3);
+        } while (continuer);
     }
 
 
@@ -62,7 +67,10 @@ public class Menu {
         List<Utilisateur> utilisateurs = gestionUtilisateur.getUtilisateurs();
 
         if (utilisateurs.isEmpty()) {
-            System.out.println("Aucun utilisateur trouvé.");
+            System.out.println("____________________________");
+              System.out.println("Aucun utilisateur trouvé.");
+            System.out.println("____________________________");
+
         } else {
             System.out.println("=== Liste des Utilisateurs ===");
             for (Utilisateur utilisateur : utilisateurs) {
@@ -73,7 +81,6 @@ public class Menu {
             }
         }
     }
-
 
 
 }

@@ -8,7 +8,6 @@ public class Utilisateur {
     private int age;
     private List<CarbonConsommation> consommation;
 
-
     public Utilisateur(long id, String name, int age) {
         this.id = id;
         this.name = name;
