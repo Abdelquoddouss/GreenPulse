@@ -20,5 +20,10 @@ public class GestionUtilisateur {
         return nouvelUtilisateur;
     }
 
+    public List<Utilisateur> getUtilisateurs() {
+        return utilisateurs;
+    }
+
+
 
 }

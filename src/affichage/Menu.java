@@ -3,6 +3,7 @@ package affichage;
 import entities.Utilisateur;
 import services.GestionUtilisateur;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -29,7 +30,7 @@ public class Menu {
                     creerNouvelUtilisateur();
                     break;
                 case 2:
-
+                    afficherTousLesUtilisateurs();
                     break;
                 case 3:
                     System.out.println("Merci d'avoir utilisé l'application !");
@@ -56,6 +57,23 @@ public class Menu {
         System.out.println("Nom : " + nouvelUtilisateur.getName());
         System.out.println("Âge : " + nouvelUtilisateur.getAge());
     }
+
+    private void afficherTousLesUtilisateurs() {
+        List<Utilisateur> utilisateurs = gestionUtilisateur.getUtilisateurs();
+
+        if (utilisateurs.isEmpty()) {
+            System.out.println("Aucun utilisateur trouvé.");
+        } else {
+            System.out.println("=== Liste des Utilisateurs ===");
+            for (Utilisateur utilisateur : utilisateurs) {
+                System.out.println("ID : " + utilisateur.getId());
+                System.out.println("Nom : " + utilisateur.getName());
+                System.out.println("Âge : " + utilisateur.getAge());
+                System.out.println("----------------------------");
+            }
+        }
+    }
+
 
 
 }
