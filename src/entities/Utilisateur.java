@@ -16,6 +16,9 @@ public class Utilisateur {
         this.consommation = consommation;
     }
 
+    public Utilisateur() {
+    }
+
     public long getId() {
         return id;
     }
