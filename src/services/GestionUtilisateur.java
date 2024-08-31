@@ -23,6 +23,32 @@ public class GestionUtilisateur {
         return utilisateurs;
     }
 
+    public Utilisateur rechercheUserById(long id){
+        for (Utilisateur utilisateur : utilisateurs) {
+            if (utilisateur.getId() == id) {
+                return utilisateur;
+            }
+        }
+        return null;
+    }
+
+    public boolean modifierUtilisateur(long id, String newName, int newAge) {
+        for (Utilisateur utilisateur : utilisateurs) {
+            if (utilisateur.getId() == id){
+                utilisateur.setName(newName);
+                utilisateur.setAge(newAge);
+                return true;
+            }
+        }
 
 
-}
+        return false;
+    }
+
+
+
+
+    }
+
+
+

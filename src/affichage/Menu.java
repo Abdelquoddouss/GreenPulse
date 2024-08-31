@@ -36,6 +36,9 @@ public class Menu {
                 case "2":
                     afficherTousLesUtilisateurs();
                     break;
+                case "3":
+                    modifierUtilisateur();
+                    break;
                 case "5":
                     System.out.println("Merci d'avoir utilisé l'application !");
                     continuer = false;
@@ -81,6 +84,30 @@ public class Menu {
             }
         }
     }
+
+
+    private void modifierUtilisateur() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Entrez l'identifiant de l'utilisateur à modifier : ");
+        long id = scanner.nextLong();
+        scanner.nextLine();
+
+        System.out.print("Entrez le nouveau nom de l'utilisateur : ");
+        String newName = scanner.nextLine();
+
+        System.out.print("Entrez le nouvel âge de l'utilisateur : ");
+        int newAge = scanner.nextInt();
+
+        boolean isModified = gestionUtilisateur.modifierUtilisateur(id, newName, newAge);
+
+        if (isModified) {
+            System.out.println("Utilisateur modifié avec succès !");
+        } else {
+            System.out.println("Utilisateur non trouvé !");
+        }
+    }
+
 
 
 }
