@@ -39,6 +39,9 @@ public class Menu {
                 case "3":
                     modifierUtilisateur();
                     break;
+                case "4":
+                    supprimerUtilisateur();
+                    break;
                 case "5":
                     System.out.println("Merci d'avoir utilisé l'application !");
                     continuer = false;
@@ -92,6 +95,10 @@ public class Menu {
         System.out.print("Entrez l'identifiant de l'utilisateur à modifier : ");
         long id = scanner.nextLong();
         scanner.nextLine();
+        if (!gestionUtilisateur.existeUtilisateur(id)) {
+            System.out.println("Utilisateur non trouvé !");
+            return;
+        }
 
         System.out.print("Entrez le nouveau nom de l'utilisateur : ");
         String newName = scanner.nextLine();
@@ -105,6 +112,20 @@ public class Menu {
             System.out.println("Utilisateur modifié avec succès !");
         } else {
             System.out.println("Utilisateur non trouvé !");
+        }
+    }
+
+    private void supprimerUtilisateur() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Entrez l'identifiant de l'utilisateur à supprimer : ");
+        long id = scanner.nextLong();
+
+        boolean result = gestionUtilisateur.supprimerUtilisateur(id);
+        if (result) {
+            System.out.println("Utilisateur supprimé avec succès.");
+        } else {
+            System.out.println("Utilisateur avec cet identifiant n'existe pas.");
         }
     }
 

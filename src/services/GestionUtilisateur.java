@@ -8,6 +8,8 @@ public class GestionUtilisateur {
     private static long idCounter = 1;
     private List<Utilisateur> utilisateurs;
 
+
+
     public GestionUtilisateur() {
         this.utilisateurs = new ArrayList<>();
     }
@@ -20,7 +22,7 @@ public class GestionUtilisateur {
     }
 
     public List<Utilisateur> getUtilisateurs() {
-        return utilisateurs;
+        return this.utilisateurs;
     }
 
     public Utilisateur rechercheUserById(long id){
@@ -45,7 +47,14 @@ public class GestionUtilisateur {
         return false;
     }
 
+    public boolean existeUtilisateur(long id) {
+        return utilisateurs.stream().anyMatch(utilisateur -> utilisateur.getId() == id);
+    }
 
+
+    public boolean supprimerUtilisateur(long id) {
+        return utilisateurs.removeIf(utilisateur -> utilisateur.getId() == id);
+    }
 
 
     }
