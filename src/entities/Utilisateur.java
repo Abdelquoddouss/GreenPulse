@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Utilisateur {
@@ -12,7 +13,7 @@ public class Utilisateur {
         this.id = id;
         this.name = name;
         this.age = age;
-        this.consommation = consommation;
+        this.consommation = new ArrayList<>();
     }
 
     public Utilisateur() {

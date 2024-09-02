@@ -1,6 +1,9 @@
 package services;
 
+import entities.CarbonConsommation;
 import entities.Utilisateur;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +35,19 @@ public class GestionUtilisateur {
             }
         }
         return null;
+    }
+
+    public boolean ajouterConsommation(long id, LocalDate startDate, LocalDate endDate, double carbonAmount) {
+        Utilisateur utilisateur = rechercheUserById(id);
+        if (utilisateur != null) {
+            LocalDate date = startDate;
+            while (!date.isAfter(endDate)) {
+                utilisateur.getConsommation().add(new CarbonConsommation(date, carbonAmount));
+                date = date.plusDays(1);
+            }
+            return true;
+        }
+        return false;
     }
 
     public boolean modifierUtilisateur(long id, String newName, int newAge) {

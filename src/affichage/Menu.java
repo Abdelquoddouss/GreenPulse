@@ -3,7 +3,8 @@ package affichage;
 import entities.Utilisateur;
 import services.GestionUtilisateur;
 
- import java.util.List;
+import java.time.LocalDate;
+import java.util.List;
  import java.util.Scanner;
 
 public class Menu {
@@ -26,8 +27,9 @@ public class Menu {
             System.out.println("2. Afficher tous les utilisateurs");
             System.out.println("3. Modifier un utilisateur");
             System.out.println("4. Supprimmer un utilisateur");
-            System.out.println("5. Quitter");
-            System.out.print("Entrez votre choix (1-5) : ");
+            System.out.println("5. Ajouter une consommation de carbone");
+            System.out.println("6. Quitter");
+            System.out.print("Entrez votre choix (1-6) : ");
             choix = String.valueOf(scanner.nextLine());
             switch (choix) {
                 case "1":
@@ -43,6 +45,9 @@ public class Menu {
                     supprimerUtilisateur();
                     break;
                 case "5":
+                    ajouterConsommation();
+                    break;
+                case "6":
                     System.out.println("Merci d'avoir utilisé l'application !");
                     continuer = false;
                     break;
@@ -129,6 +134,35 @@ public class Menu {
         }
     }
 
+
+    private void ajouterConsommation() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Entrez l'identifiant de l'utilisateur : ");
+        long id = scanner.nextLong();
+        scanner.nextLine();
+
+        if (!gestionUtilisateur.existeUtilisateur(id)) {
+            System.out.println("Utilisateur non trouvé !");
+            return;
+        }
+
+        System.out.print("Entrez la date de début de la consommation (AAAA-MM-JJ) : ");
+        LocalDate startDate = LocalDate.parse(scanner.nextLine());
+
+        System.out.print("Entrez la date de fin de la consommation (AAAA-MM-JJ) : ");
+        LocalDate endDate = LocalDate.parse(scanner.nextLine());
+
+        System.out.print("Entrez la quantité de carbone consommée : ");
+        double carbonAmount = scanner.nextDouble();
+
+        boolean isAdded = gestionUtilisateur.ajouterConsommation(id, startDate, endDate, carbonAmount);
+        if (isAdded) {
+            System.out.println("Consommation ajoutée avec succès !");
+        } else {
+            System.out.println("Échec de l'ajout de la consommation.");
+        }
+    }
 
 
 }
