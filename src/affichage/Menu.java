@@ -1,5 +1,6 @@
 package affichage;
 
+import entities.CarbonConsommation;
 import entities.Utilisateur;
 import services.GestionUtilisateur;
 
@@ -28,7 +29,8 @@ public class Menu {
             System.out.println("3. Modifier un utilisateur");
             System.out.println("4. Supprimmer un utilisateur");
             System.out.println("5. Ajouter une consommation de carbone");
-            System.out.println("6. Quitter");
+            System.out.println("6. Afficher les détails d'un utilisateur");
+            System.out.println("7. Quitter");
             System.out.print("Entrez votre choix (1-6) : ");
             choix = String.valueOf(scanner.nextLine());
             switch (choix) {
@@ -48,6 +50,9 @@ public class Menu {
                     ajouterConsommation();
                     break;
                 case "6":
+                    afficherDetailsUtilisateur();
+                    break;
+                case "7":
                     System.out.println("Merci d'avoir utilisé l'application !");
                     continuer = false;
                     break;
@@ -163,6 +168,40 @@ public class Menu {
             System.out.println("Échec de l'ajout de la consommation.");
         }
     }
+
+
+    private void afficherDetailsUtilisateur() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Entrez l'identifiant de l'utilisateur : ");
+        long id = scanner.nextLong();
+        scanner.nextLine();
+
+        Utilisateur utilisateur = gestionUtilisateur.rechercheUserById(id);
+        if (utilisateur == null) {
+            System.out.println("Utilisateur non trouvé !");
+            return;
+        }
+
+        System.out.println("=== Détails de l'utilisateur ===");
+        System.out.println("ID : " + utilisateur.getId());
+        System.out.println("Nom : " + utilisateur.getName());
+        System.out.println("Âge : " + utilisateur.getAge());
+
+        List<CarbonConsommation> consommations = utilisateur.getConsommation();
+        if (consommations.isEmpty()) {
+            System.out.println("Aucune consommation de carbone enregistrée.");
+        } else {
+            System.out.println("=== Détails des consommations de carbone ===");
+            for (CarbonConsommation consommation : consommations) {
+                System.out.println("Date de début : " + consommation.getStartDate());
+                System.out.println("Date de fin : " + consommation.getEndDate());
+                System.out.println("Quantité de carbone : " + consommation.getCarbonAmount() + " kg");
+                System.out.println("-----------------------------");
+            }
+        }
+    }
+
 
 
 }

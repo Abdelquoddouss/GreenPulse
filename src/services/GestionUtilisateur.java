@@ -40,15 +40,14 @@ public class GestionUtilisateur {
     public boolean ajouterConsommation(long id, LocalDate startDate, LocalDate endDate, double carbonAmount) {
         Utilisateur utilisateur = rechercheUserById(id);
         if (utilisateur != null) {
-            LocalDate date = startDate;
-            while (!date.isAfter(endDate)) {
-                utilisateur.getConsommation().add(new CarbonConsommation(date, carbonAmount));
-                date = date.plusDays(1);
-            }
+            CarbonConsommation nouvelleConsommation = new CarbonConsommation(startDate, endDate, carbonAmount);
+            utilisateur.getConsommation().add(nouvelleConsommation);
+
             return true;
         }
         return false;
     }
+
 
     public boolean modifierUtilisateur(long id, String newName, int newAge) {
         for (Utilisateur utilisateur : utilisateurs) {
