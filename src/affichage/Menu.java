@@ -5,6 +5,7 @@ import entities.Utilisateur;
 import services.GestionUtilisateur;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
  import java.util.Scanner;
 
@@ -31,6 +32,7 @@ public class Menu {
             System.out.println("5. Ajouter une consommation de carbone");
             System.out.println("6. Afficher les détails d'un utilisateur");
             System.out.println("7. Quitter");
+            System.out.println("8. Gestion Rapport");
             System.out.print("Entrez votre choix (1-6) : ");
             choix = String.valueOf(scanner.nextLine());
             switch (choix) {
@@ -51,6 +53,9 @@ public class Menu {
                     break;
                 case "6":
                     afficherDetailsUtilisateur();
+                    break;
+                case "8":
+                    afficherRapportConsommation();
                     break;
                 case "7":
                     System.out.println("Merci d'avoir utilisé l'application !");
@@ -98,7 +103,6 @@ public class Menu {
         }
     }
 
-
     private void modifierUtilisateur() {
         Scanner scanner = new Scanner(System.in);
 
@@ -130,7 +134,6 @@ public class Menu {
 
         System.out.print("Entrez l'identifiant de l'utilisateur à supprimer : ");
         long id = scanner.nextLong();
-
         boolean result = gestionUtilisateur.supprimerUtilisateur(id);
         if (result) {
             System.out.println("Utilisateur supprimé avec succès.");
@@ -197,10 +200,46 @@ public class Menu {
                 System.out.println("Date de début : " + consommation.getStartDate());
                 System.out.println("Date de fin : " + consommation.getEndDate());
                 System.out.println("Quantité de carbone : " + consommation.getCarbonAmount() + " kg");
+                System.out.println("Consommation totale de carbone : " + utilisateur.calculerConsommationTotale() + " kg");
                 System.out.println("-----------------------------");
             }
         }
     }
+
+
+    private void afficherRapportConsommation() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Entrez l'identifiant de l'utilisateur : ");
+        long id = scanner.nextLong();
+        scanner.nextLine();
+
+        System.out.println("Choisissez le type de rapport : ");
+        System.out.println("1. Quotidien");
+        System.out.println("2. Hebdomadaire");
+        System.out.println("3. Mensuel");
+        int choix = scanner.nextInt();
+        scanner.nextLine();
+
+        String reportType;
+        switch (choix) {
+            case 1:
+                reportType = "quotidien";
+                break;
+            case 2:
+                reportType = "hebdomadaire";
+                break;
+            case 3:
+                reportType = "mensuel";
+                break;
+            default:
+                System.out.println("Type de rapport invalide.");
+                return;
+        }
+
+        gestionUtilisateur.generateConsumptionReport(id, reportType);
+    }
+
 
 
 

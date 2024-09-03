@@ -4,6 +4,8 @@ import entities.CarbonConsommation;
 import entities.Utilisateur;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +74,78 @@ public class GestionUtilisateur {
     }
 
 
+    public void generateConsumptionReport(long id, String reportType) {
+        Utilisateur utilisateur = rechercheUserById(id);
+        if (utilisateur == null) {
+            System.out.println("Utilisateur non trouvé !");
+            return;
+        }
+
+        List<CarbonConsommation> consommations = utilisateur.getConsommation();
+        if (consommations == null || consommations.isEmpty()) {
+            System.out.println("Aucune consommation de carbone enregistrée pour l'utilisateur " + utilisateur.getName());
+            return;
+        }
+        switch (reportType.toLowerCase()) {
+            case "quotidien":
+                generateReport(consommations, "Quotidien");
+                break;
+            case "hebdomadaire":
+                generateReport(consommations, "Hebdomadaire");
+                break;
+            case "mensuel":
+                generateReport(consommations, "Mensuel");
+                break;
+            default:
+                System.out.println("Type de rapport invalide.");
+        }
     }
+
+    private void generateReport(List<CarbonConsommation> consommations, String reportType) {
+        System.out.println(reportType + " Rapport de Consommation:");
+        for (CarbonConsommation consommation : consommations) {
+            long daysBetween = ChronoUnit.DAYS.between(consommation.getStartDate(), consommation.getEndDate()) + 1;
+            double dailyConsumption = consommation.getCarbonAmount() / daysBetween;
+
+            LocalDate currentDate = consommation.getStartDate();
+            double periodConsumption = 0;
+            int dayCounter = 0;
+
+            while (!currentDate.isAfter(consommation.getEndDate())) {
+                periodConsumption += dailyConsumption;
+                dayCounter++;
+
+                boolean isReportBoundary = false;
+                switch (reportType) {
+                    case "Quotidien":
+                        isReportBoundary = true;
+                        break;
+                    case "Hebdomadaire":
+                        isReportBoundary = dayCounter % 7 == 0 || currentDate.equals(consommation.getEndDate());
+                        break;
+                    case "Mensuel":
+                        isReportBoundary = currentDate.getDayOfMonth() == currentDate.lengthOfMonth() || currentDate.equals(consommation.getEndDate());
+                        break;
+                }
+                if (isReportBoundary) {
+                    System.out.printf("%s se terminant le %s, Consommation: %.2f kg%n", reportType, currentDate, periodConsumption);
+                    periodConsumption = 0;
+                }
+
+                currentDate = currentDate.plusDays(1);
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+}
 
 
 

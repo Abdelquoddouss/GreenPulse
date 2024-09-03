@@ -50,4 +50,14 @@ public class Utilisateur {
     public void setConsommation(List<CarbonConsommation> consommation) {
         this.consommation = consommation;
     }
+
+
+    public double calculerConsommationTotale() {
+        double total = 0.0;
+        for (CarbonConsommation consommation : this.consommation) {
+            total += consommation.getCarbonAmount();
+        }
+        return total;
+    }
+
 }
