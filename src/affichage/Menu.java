@@ -13,6 +13,23 @@ public class Menu {
 
     private GestionUtilisateur gestionUtilisateur;
 
+    // Couleurs de fond
+    public static final String LIGHT_BLUE_BACKGROUND = "\u001B[104m";
+
+    // Couleurs de texte
+    public static final String BLACK = "\u001B[30m";
+    public static final String BRIGHT_WHITE = "\u001B[97m";
+    public static final String BRIGHT_YELLOW = "\u001B[93m";
+    public static final String BRIGHT_RED = "\u001B[91m";
+    public static final String BRIGHT_CYAN = "\u001B[96m";
+
+    // Texte en gras
+    public static final String BOLD_WHITE = "\u001B[1;97m";
+
+    // Reset (pour réinitialiser la couleur)
+    public static final String RESET = "\u001B[0m";
+
+
     public Menu(GestionUtilisateur gestionUtilisateur) {
         this.gestionUtilisateur = gestionUtilisateur;
     }
@@ -24,17 +41,25 @@ public class Menu {
 
 
         do {
-            System.out.println("=== Menu Principal ===");
-            System.out.println("1. Créer un nouvel utilisateur");
-            System.out.println("2. Afficher tous les utilisateurs");
-            System.out.println("3. Modifier un utilisateur");
-            System.out.println("4. Supprimmer un utilisateur");
-            System.out.println("5. Ajouter une consommation de carbone");
-            System.out.println("6. Afficher les détails d'un utilisateur");
-            System.out.println("7. Quitter");
-            System.out.println("8. Gestion Rapport");
-            System.out.print("Entrez votre choix (1-6) : ");
-            choix = String.valueOf(scanner.nextLine());
+            System.out.println(LIGHT_BLUE_BACKGROUND + BLACK + "╔════════════════════════════════════════╗" + RESET);
+            System.out.println(LIGHT_BLUE_BACKGROUND + BLACK + "║          " + BOLD_WHITE + "MENU PRINCIPAL" + LIGHT_BLUE_BACKGROUND + "           ║" + RESET);
+            System.out.println(LIGHT_BLUE_BACKGROUND + BLACK + "╚════════════════════════════════════════╝" + RESET);
+
+            System.out.println(BRIGHT_YELLOW + "1. " + BRIGHT_WHITE + "Créer un nouvel utilisateur" + RESET);
+            System.out.println(BRIGHT_YELLOW + "2. " + BRIGHT_WHITE + "Afficher tous les utilisateurs" + RESET);
+            System.out.println(BRIGHT_YELLOW + "3. " + BRIGHT_WHITE + "Modifier un utilisateur" + RESET);
+            System.out.println(BRIGHT_YELLOW + "4. " + BRIGHT_WHITE + "Supprimer un utilisateur" + RESET);
+            System.out.println(BRIGHT_YELLOW + "5. " + BRIGHT_WHITE + "Ajouter une consommation de carbone" + RESET);
+            System.out.println(BRIGHT_YELLOW + "6. " + BRIGHT_WHITE + "Afficher les détails d'un utilisateur" + RESET);
+            System.out.println(BRIGHT_YELLOW + "8. " + BRIGHT_WHITE + "Gestion Rapport" + RESET);
+            System.out.println(BRIGHT_RED + "7. Quitter" + RESET);
+            System.out.print(BRIGHT_CYAN + "Entrez votre choix (1-8) : " + RESET);
+
+            choix = scanner.nextLine();
+
+            System.out.println(LIGHT_BLUE_BACKGROUND + BLACK + "╟────────────────────────────────────────╢" + RESET);
+
+
             switch (choix) {
                 case "1":
                     creerNouvelUtilisateur();
@@ -58,11 +83,12 @@ public class Menu {
                     afficherRapportConsommation();
                     break;
                 case "7":
+                    System.out.println("=========================================");
                     System.out.println("Merci d'avoir utilisé l'application !");
-                    continuer = false;
+                    System.out.println("=========================================");                    continuer = false;
                     break;
                 default:
-                    System.out.println("Choix invalide, veuillez entrer un chiffre entre 1 et 5.");
+                    System.out.println("⚠️ Choix invalide, veuillez entrer un chiffre entre 1 et 8.");
             }
         } while (continuer);
     }
@@ -71,6 +97,10 @@ public class Menu {
     private void creerNouvelUtilisateur() {
         Scanner scanner = new Scanner(System.in);
 
+        System.out.println("=========================================");
+        System.out.println("      *** CRÉER UN NOUVEL UTILISATEUR ***");
+        System.out.println("=========================================");
+
         System.out.print("Entrez le nom de l'utilisateur : ");
         String name = scanner.nextLine();
 
@@ -78,7 +108,7 @@ public class Menu {
         int age = scanner.nextInt();
 
         Utilisateur nouvelUtilisateur = gestionUtilisateur.creerUtilisateur(name, age);
-        System.out.println("Utilisateur créé avec succès !");
+        System.out.println("✅ Utilisateur créé avec succès !");
         System.out.println("ID : " + nouvelUtilisateur.getId());
         System.out.println("Nom : " + nouvelUtilisateur.getName());
         System.out.println("Âge : " + nouvelUtilisateur.getAge());
@@ -86,6 +116,10 @@ public class Menu {
 
     private void afficherTousLesUtilisateurs() {
         List<Utilisateur> utilisateurs = gestionUtilisateur.getUtilisateurs();
+
+        System.out.println("=========================================");
+        System.out.println("      *** LISTE DES UTILISATEURS ***     ");
+        System.out.println("=========================================");
 
         if (utilisateurs.isEmpty()) {
             System.out.println("____________________________");
@@ -95,16 +129,20 @@ public class Menu {
         } else {
             System.out.println("=== Liste des Utilisateurs ===");
             for (Utilisateur utilisateur : utilisateurs) {
-                System.out.println("ID : " + utilisateur.getId());
-                System.out.println("Nom : " + utilisateur.getName());
-                System.out.println("Âge : " + utilisateur.getAge());
-                System.out.println("----------------------------");
+                System.out.println("🔹 ID : " + utilisateur.getId());
+                System.out.println("🔹 Nom : " + utilisateur.getName());
+                System.out.println("🔹 Âge : " + utilisateur.getAge());
+                System.out.println("------------------------------");
             }
         }
     }
 
     private void modifierUtilisateur() {
         Scanner scanner = new Scanner(System.in);
+
+        System.out.println("=========================================");
+        System.out.println("       *** MODIFIER UTILISATEUR ***      ");
+        System.out.println("=========================================");
 
         System.out.print("Entrez l'identifiant de l'utilisateur à modifier : ");
         long id = scanner.nextLong();
@@ -113,7 +151,6 @@ public class Menu {
             System.out.println("Utilisateur non trouvé !");
             return;
         }
-
         System.out.print("Entrez le nouveau nom de l'utilisateur : ");
         String newName = scanner.nextLine();
 
@@ -123,22 +160,24 @@ public class Menu {
         boolean isModified = gestionUtilisateur.modifierUtilisateur(id, newName, newAge);
 
         if (isModified) {
-            System.out.println("Utilisateur modifié avec succès !");
+            System.out.println("✅ Utilisateur modifié avec succès !");
         } else {
-            System.out.println("Utilisateur non trouvé !");
+            System.out.println("⚠️ Échec de la modification de l'utilisateur !");
         }
     }
 
     private void supprimerUtilisateur() {
         Scanner scanner = new Scanner(System.in);
-
+        System.out.println("=========================================");
+        System.out.println("       *** SUPPRIMER UTILISATEUR ***     ");
+        System.out.println("=========================================");
         System.out.print("Entrez l'identifiant de l'utilisateur à supprimer : ");
         long id = scanner.nextLong();
         boolean result = gestionUtilisateur.supprimerUtilisateur(id);
         if (result) {
-            System.out.println("Utilisateur supprimé avec succès.");
+            System.out.println("✅ Utilisateur supprimé avec succès.");
         } else {
-            System.out.println("Utilisateur avec cet identifiant n'existe pas.");
+            System.out.println("⚠️ Utilisateur avec cet identifiant n'existe pas.");
         }
     }
 
@@ -146,12 +185,15 @@ public class Menu {
     private void ajouterConsommation() {
         Scanner scanner = new Scanner(System.in);
 
+        System.out.println("=========================================");
+        System.out.println("  *** AJOUTER CONSOMMATION DE CARBONE ***");
+        System.out.println("=========================================");
         System.out.print("Entrez l'identifiant de l'utilisateur : ");
         long id = scanner.nextLong();
         scanner.nextLine();
 
         if (!gestionUtilisateur.existeUtilisateur(id)) {
-            System.out.println("Utilisateur non trouvé !");
+            System.out.println("⚠️ Utilisateur non trouvé !");
             return;
         }
 
@@ -176,6 +218,9 @@ public class Menu {
     private void afficherDetailsUtilisateur() {
         Scanner scanner = new Scanner(System.in);
 
+        System.out.println("=========================================");
+        System.out.println("   *** DÉTAILS DE L'UTILISATEUR ***      ");
+        System.out.println("=========================================");
         System.out.print("Entrez l'identifiant de l'utilisateur : ");
         long id = scanner.nextLong();
         scanner.nextLine();
@@ -186,7 +231,6 @@ public class Menu {
             return;
         }
 
-        System.out.println("=== Détails de l'utilisateur ===");
         System.out.println("ID : " + utilisateur.getId());
         System.out.println("Nom : " + utilisateur.getName());
         System.out.println("Âge : " + utilisateur.getAge());
@@ -197,19 +241,24 @@ public class Menu {
         } else {
             System.out.println("=== Détails des consommations de carbone ===");
             for (CarbonConsommation consommation : consommations) {
-                System.out.println("Date de début : " + consommation.getStartDate());
-                System.out.println("Date de fin : " + consommation.getEndDate());
-                System.out.println("Quantité de carbone : " + consommation.getCarbonAmount() + " kg");
-                System.out.println("Consommation totale de carbone : " + utilisateur.calculerConsommationTotale() + " kg");
-                System.out.println("-----------------------------");
+                System.out.println("📅 Date de début : " + consommation.getStartDate());
+                System.out.println("📅 Date de fin : " + consommation.getEndDate());
+                System.out.println("💨 Quantité de carbone : " + consommation.getCarbonAmount() + " kg");
+                System.out.println("------------------------------");
             }
+            System.out.println("🌍 Consommation totale : " + utilisateur.calculerConsommationTotale() + " kg");
+
         }
+        System.out.println("=========================================");
+
     }
 
 
     private void afficherRapportConsommation() {
         Scanner scanner = new Scanner(System.in);
-
+        System.out.println("=========================================");
+        System.out.println("    *** RAPPORT DE CONSOMMATION ***      ");
+        System.out.println("=========================================");
         System.out.print("Entrez l'identifiant de l'utilisateur : ");
         long id = scanner.nextLong();
         scanner.nextLine();
@@ -218,6 +267,8 @@ public class Menu {
         System.out.println("1. Quotidien");
         System.out.println("2. Hebdomadaire");
         System.out.println("3. Mensuel");
+        System.out.print("🔷 Votre choix (1-3) : ");
+
         int choix = scanner.nextInt();
         scanner.nextLine();
 
