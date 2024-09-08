@@ -131,7 +131,6 @@ public class GestionUtilisateur {
                     System.out.printf("%s se terminant le %s, Consommation: %.2f kg%n", reportType, currentDate, periodConsumption);
                     periodConsumption = 0;
                 }
-
                 currentDate = currentDate.plusDays(1);
             }
         }
