@@ -52,12 +52,6 @@ public class Utilisateur {
     }
 
 
-    public double calculerConsommationTotale() {
-        double total = 0.0;
-        for (CarbonConsommation consommation : this.consommation) {
-            total += consommation.getCarbonAmount();
-        }
-        return total;
-    }
+   ;
 
 }
