@@ -1,6 +1,7 @@
 package ui;
 
 import entities.Utilisateur;
+import service.GestionConsommation;
 import service.GestionUser;
 
 import java.util.List;
@@ -9,10 +10,14 @@ import java.util.Scanner;
 public class Menu {
     private GestionUser gestionUser;
     private Scanner scanner;
+    private GestionConsommation gestionConsommation;
+
 
     public Menu(GestionUser gestionUser) {
         this.gestionUser = new GestionUser();
         this.scanner = new Scanner(System.in);
+        this.gestionConsommation = gestionConsommation;
+
     }
 
     public void affichageMenu() {
@@ -23,6 +28,7 @@ public class Menu {
             System.out.println("2. Afficher les utilisateurs");
             System.out.println("3. Modifier un utilisateur");
             System.out.println("4. Supprimer un utilisateur");
+            System.out.println("5. Ajouter une consommation");
             System.out.println("0. Quitter");
             System.out.print("Choisissez une option: ");
             choix = scanner.nextInt();
@@ -41,6 +47,9 @@ public class Menu {
                     break;
                 case 4:
                     supprimerUtilisateur();
+                    break;
+                case 5:
+                    ajouterConsommation();
                     break;
                 case 0:
                     System.out.println("Au revoir !");
@@ -114,6 +123,16 @@ public class Menu {
         }
 
         gestionUser.deleteUser(utilisateur);
+    }
+
+
+    private void ajouterConsommation() {
+        System.out.print("Entrez l'ID de l'utilisateur pour ajouter une consommation : ");
+        int utilisateurId = scanner.nextInt();
+        scanner.nextLine();
+
+        GestionConsommation.ajouterConsommation(utilisateurId);
+
     }
 
 

@@ -5,10 +5,9 @@ CREATE TABLE utilisateurs (
                               age INT NOT NULL
 );
 
--- Création de la table consommations
 CREATE TABLE consommations (
-                               id SERIAL PRIMARY KEY,
-                               utilisateur_id INT ,
+                               id SERIAL PRIMARY KEY ,
+                               utilisateur_id INT  ,
                                startDate date,
                                endDate date,
                               consommationType VARCHAR(50) ,

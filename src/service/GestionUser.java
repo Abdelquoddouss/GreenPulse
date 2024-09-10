@@ -1,9 +1,12 @@
 package service;
 
 import Repository.UserRepository;
+import entities.CarbonConsommation;
 import entities.Utilisateur;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GestionUser {
 
@@ -36,5 +39,12 @@ public class GestionUser {
         userRepository.delete(utilisateur);
         System.out.println("Utilisateur supprimé avec succès.");
     }
+
+
+
+
+
+
+
 
 }
