@@ -12,17 +12,14 @@ public class Logement extends CarbonConsommation{
         this.typeEnergie = typeEnergie;
     }
 
-
-
-
     @Override
     public double calculerImpact() {
         switch (typeEnergie.toLowerCase()) {
             case "electricite":
-                impactCarbone = consommationEnergie * 1.5; // Exemple: 1.5 kg CO₂ par kWh
+                impactCarbone = consommationEnergie * 1.5;
                 break;
             case "gaz":
-                impactCarbone = consommationEnergie * 2.0; // Exemple: 2.0 kg CO₂ par kWh
+                impactCarbone = consommationEnergie * 2.0;
                 break;
             default:
                 impactCarbone = 0;
@@ -30,4 +27,5 @@ public class Logement extends CarbonConsommation{
         }
         return impactCarbone;
     }
+
 }

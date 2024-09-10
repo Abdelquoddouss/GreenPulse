@@ -1,3 +1,4 @@
+import service.GestionConsommation;
 import service.GestionUser;
 import ui.Menu;
 import configuration.Connextion;
@@ -10,9 +11,9 @@ public class Main {
         Connection conn = Connextion.getInstance().getConnection();
         GestionUser gestionUser = new GestionUser();
 
+        GestionConsommation gestionConsommation = new GestionConsommation(conn);
 
-
-        Menu menu = new Menu(gestionUser);
+        Menu menu = new Menu(gestionUser, gestionConsommation);
         menu.affichageMenu();
 
 

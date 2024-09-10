@@ -13,10 +13,10 @@ public class Menu {
     private GestionConsommation gestionConsommation;
 
 
-    public Menu(GestionUser gestionUser) {
+    public Menu(GestionUser gestionUser, GestionConsommation gestionConsommation) {
         this.gestionUser = new GestionUser();
         this.scanner = new Scanner(System.in);
-        this.gestionConsommation = gestionConsommation;
+        this.gestionConsommation = this.gestionConsommation;
 
     }
 
