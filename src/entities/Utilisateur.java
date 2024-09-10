@@ -51,7 +51,15 @@ public class Utilisateur {
         this.consommation = consommation;
     }
 
+    public void ajouterConsommation(CarbonConsommation consommation) {
+        this.consommation.add(consommation);
+    }
 
-   ;
+    public double calculerImpactTotal() {
+        return consommation.stream().mapToDouble(CarbonConsommation::calculerImpact).sum();
+    }
+
+
+
 
 }
