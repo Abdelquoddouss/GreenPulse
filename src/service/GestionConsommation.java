@@ -35,7 +35,6 @@ public class GestionConsommation {
         String option;
         LocalDate startDate, endDate;
 
-        // Demander les dates
         System.out.println("Entrez la date de début (YYYY-MM-DD) : ");
         startDate = LocalDate.parse(scanner.nextLine());
         System.out.println("Entrez la date de fin (YYYY-MM-DD) : ");
@@ -46,10 +45,11 @@ public class GestionConsommation {
                 System.out.println("Entrez la distance parcourue (en km): ");
                 quantite = scanner.nextDouble();
                 scanner.nextLine();
-                System.out.println("Entrez le type de véhicule : ");
+                System.out.println("Entrez le type de véhicule (ex: voiture, train) : ");
                 option = scanner.nextLine();
-                consommation = new Transport(quantite, option, startDate, endDate, "transport", 1);
+                consommation = new Transport(quantite, option, startDate, endDate, "transport", 1);  // 1 est la valeur de quantite car on ne mesure que la distance pour le transport
                 break;
+
 
             case 2:
                 System.out.println("Entrez la consommation d'énergie (en kWh): ");

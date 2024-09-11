@@ -14,6 +14,23 @@ public class Transport extends CarbonConsommation {
         this.typeDeVehicule = typeDeVehicule;
     }
 
+    public double getDistanceParcourue() {
+        return distanceParcourue;
+    }
+    public void setDistanceParcourue(double distanceParcourue) {
+        this.distanceParcourue = distanceParcourue;
+    }
+
+    public String getTypeDeVehicule() {
+        return typeDeVehicule;
+    }
+
+    public void setTypeDeVehicule(String typeDeVehicule) {
+        this.typeDeVehicule = typeDeVehicule;
+    }
+
+
+
     @Override
     public double calculerImpact() {
         switch (typeDeVehicule.toLowerCase()) {
@@ -29,4 +46,6 @@ public class Transport extends CarbonConsommation {
         }
         return impactCarbone;
     }
+
+
 }
