@@ -28,7 +28,6 @@ public class ConsommationRepository {
             ps.setInt(6, consommation.getQuantite());
             ps.executeUpdate();
 
-
             if (consommation instanceof Transport) {
                 ajouterTransport((Transport) consommation);
             } else if (consommation instanceof Logement) {
@@ -56,19 +55,22 @@ public class ConsommationRepository {
     }
 
     private void ajouterLogement(Logement consommation) throws SQLException {
-        String query = "INSERT INTO logement (consommation_energie, type_energie) VALUES (?, ?)";
+        String query = "INSERT INTO logement (consommation_id, consommation_energie, type_energie) VALUES (?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setDouble(1, consommation.getQuantite());
-            ps.setString(2, consommation.getConsommationType());
+            ps.setInt(1, obtenirDernierIdConsommation()); // Obtenir l'ID de la consommation récemment insérée
+            ps.setDouble(2, consommation.getConsommationEnergie());
+            ps.setString(3, consommation.getTypeEnergie());
             ps.executeUpdate();
         }
     }
 
+
     private void ajouterAlimentation(Alimentation consommation) throws SQLException {
-        String query = "INSERT INTO alimentation (poids, type_aliment) VALUES (?, ?)";
+        String query = "INSERT INTO alimentation (consommation_id, poids, type_aliment) VALUES (?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setDouble(1, consommation.getQuantite());
-            ps.setString(2, consommation.getConsommationType());
+            ps.setInt(1, obtenirDernierIdConsommation()); // Obtenir l'ID de la consommation récemment insérée
+            ps.setDouble(2, consommation.getPoids());
+            ps.setString(3, consommation.getTypeAliment());
             ps.executeUpdate();
         }
     }

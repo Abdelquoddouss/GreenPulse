@@ -29,4 +29,12 @@ public class Alimentation extends CarbonConsommation {
 
         return impactCarbone;
     }
+
+    public double getPoids() {
+        return poids;
+    }
+
+    public String getTypeAliment() {
+        return typeAliment;
+    }
 }

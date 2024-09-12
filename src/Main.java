@@ -15,11 +15,6 @@ public class Main {
 
         Menu menu = new Menu(gestionUser, gestionConsommation);
         menu.affichageMenu();
-
-
-
-
-
     }
 }
 

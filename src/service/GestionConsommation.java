@@ -55,7 +55,7 @@ public class GestionConsommation {
                 System.out.println("Entrez la consommation d'énergie (en kWh): ");
                 quantite = scanner.nextDouble();
                 scanner.nextLine();
-                System.out.println("Entrez le type d'énergie : ");
+                System.out.println("Entrez le type d'énergie (ex:gaz,electricite) : ");
                 option = scanner.nextLine();
                 consommation = new Logement(quantite, option, startDate, endDate, "logement", 1);
                 break;
@@ -64,7 +64,7 @@ public class GestionConsommation {
                 System.out.println("Entrez le poids de l'aliment (en kg): ");
                 quantite = scanner.nextDouble();
                 scanner.nextLine();
-                System.out.println("Entrez le type d'aliment : ");
+                System.out.println("Entrez le type d'aliment (ex: legume,viande) : ");
                 option = scanner.nextLine();
                 consommation = new Alimentation(startDate, endDate, quantite, option, 1);
                 break;

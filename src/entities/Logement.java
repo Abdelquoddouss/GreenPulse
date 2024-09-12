@@ -28,4 +28,11 @@ public class Logement extends CarbonConsommation{
         return impactCarbone;
     }
 
+    public double getConsommationEnergie() {
+        return consommationEnergie;
+    }
+
+    public String getTypeEnergie() {
+        return typeEnergie;
+    }
 }
