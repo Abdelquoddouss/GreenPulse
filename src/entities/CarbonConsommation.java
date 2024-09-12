@@ -61,4 +61,7 @@ public abstract class CarbonConsommation {
         return impactCarbone;
     }
 
+    public void setImpactCarbone(double impactCarbone) {
+        this.impactCarbone = impactCarbone;
+    }
 }

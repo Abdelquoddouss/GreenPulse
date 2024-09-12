@@ -8,6 +8,7 @@ import entities.Transport;
 
 import java.sql.Connection;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
 public class GestionConsommation {
@@ -77,5 +78,11 @@ public class GestionConsommation {
         double impactCarbone = consommation.calculerImpact();
         ConsommationRepository consommationRepository = new ConsommationRepository(connection);
         consommationRepository.ajouterConsommation(utilisateurId, consommation, impactCarbone);
+    }
+
+    // Dans la classe GestionConsommation
+    public static List<CarbonConsommation> obtenirConsommationsParUtilisateur(int utilisateurId) {
+        ConsommationRepository repository = new ConsommationRepository(connection);
+        return repository.obtenirConsommationsParUtilisateur(utilisateurId);
     }
 }

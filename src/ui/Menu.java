@@ -1,5 +1,6 @@
 package ui;
 
+import entities.CarbonConsommation;
 import entities.Utilisateur;
 import service.GestionConsommation;
 import service.GestionUser;
@@ -130,8 +131,6 @@ public class Menu {
             System.out.println("\n=== Menu Consommation ===");
             System.out.println("1. Ajouter une consommation");
             System.out.println("2. Afficher les consommations");
-            System.out.println("3. Modifier une consommation");
-            System.out.println("4. Supprimer une consommation");
             System.out.println("0. Retour au menu principal");
             System.out.print("Choisissez une option: ");
             choix = scanner.nextInt();
@@ -142,24 +141,17 @@ public class Menu {
                     ajouterConsommation();
                     break;
                 case 2:
-
-                    break;
-                case 3:
-
-                    break;
-                case 4:
-
+                    afficherConsommations(scanner);
                     break;
                 case 0:
-                    System.out.println("Retour au menu principal.");
-                    break;
+                    affichageMenu();
+                break;
                 default:
                     System.out.println("Choix invalide.");
                     break;
             }
         } while (choix != 0);
     }
-
 
     private void ajouterConsommation() {
         System.out.print("Entrez l'ID de l'utilisateur pour ajouter une consommation : ");
@@ -170,6 +162,26 @@ public class Menu {
 
     }
 
+    public void afficherConsommations(Scanner scanner) {
+        System.out.print("Entrez l'ID de l'utilisateur pour voir ses consommations: ");
+        int utilisateurId = scanner.nextInt();
+        scanner.nextLine();
+
+        List<CarbonConsommation> consommations = GestionConsommation.obtenirConsommationsParUtilisateur(utilisateurId);
+
+        if (consommations.isEmpty()) {
+            System.out.println("Aucune consommation trouvée pour cet utilisateur.");
+        } else {
+            for (CarbonConsommation consommation : consommations) {
+                System.out.println("Type de consommation : " + consommation.getConsommationType());
+                System.out.println("Quantité : " + consommation.getQuantite());
+                System.out.println("Date de début : " + consommation.getStartDate());
+                System.out.println("Date de fin : " + consommation.getEndDate());
+                System.out.println("Impact carbone : " + consommation.calculerImpact());
+                System.out.println("--------------");
+            }
+        }
+    }
 
 
 

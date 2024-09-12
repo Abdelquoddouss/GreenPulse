@@ -6,10 +6,13 @@ import entities.Logement;
 import entities.Transport;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConsommationRepository {
 
-    private  Connection connection;
+    private static Connection connection;
 
     public ConsommationRepository(Connection connection) {
         this.connection = connection;
@@ -85,10 +88,89 @@ public class ConsommationRepository {
         return -1;
     }
 
+    public List<CarbonConsommation> obtenirConsommationsParUtilisateur(int utilisateurId) {
+        List<CarbonConsommation> consommations = new ArrayList<>();
+        String query = "SELECT * FROM consommations WHERE utilisateur_id = ?";
 
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, utilisateurId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    String typeConsommation = rs.getString("consommationType");
+                    LocalDate startDate = rs.getDate("startDate").toLocalDate();
+                    LocalDate endDate = rs.getDate("endDate").toLocalDate();
+                    int quantite = rs.getInt("quantite");
+                    double impactCarbone = rs.getDouble("consomationImpact");
 
+                    CarbonConsommation consommation = null;
 
+                    switch (typeConsommation) {
+                        case "transport":
+                            consommation = obtenirTransport(rs.getInt("id"), startDate, endDate, quantite);
+                            break;
+                        case "logement":
+                            consommation = obtenirLogement(rs.getInt("id"), startDate, endDate, quantite);
+                            break;
+                        case "alimentation":
+                            consommation = obtenirAlimentation(rs.getInt("id"), startDate, endDate, quantite);
+                            break;
+                    }
 
+                    if (consommation != null) {
+                        consommation.setImpactCarbone(impactCarbone);
+                        consommations.add(consommation);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return consommations;
+    }
 
+    private Transport obtenirTransport(int id, LocalDate startDate, LocalDate endDate, int quantite) throws SQLException {
+        String query = "SELECT * FROM transport WHERE consommation_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    double distanceParcourue = rs.getDouble("distance_parcourue");
+                    String typeVehicule = rs.getString("type_vehicule");
+                    return new Transport(distanceParcourue, typeVehicule, startDate, endDate, "transport", quantite);
+                }
+            }
+        }
+        return null;
+    }
+
+    private Logement obtenirLogement(int id, LocalDate startDate, LocalDate endDate, int quantite) throws SQLException {
+        String query = "SELECT * FROM logement WHERE consommation_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    double consommationEnergie = rs.getDouble("consommation_energie");
+                    String typeEnergie = rs.getString("type_energie");
+                    return new Logement(consommationEnergie, typeEnergie, startDate, endDate, "logement", quantite);
+                }
+            }
+        }
+        return null;
+    }
+
+    private Alimentation obtenirAlimentation(int id, LocalDate startDate, LocalDate endDate, int quantite) throws SQLException {
+        String query = "SELECT * FROM alimentation WHERE consommation_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    double poids = rs.getDouble("poids");
+                    String typeAliment = rs.getString("type_aliment");
+                    return new Alimentation(startDate, endDate, poids, typeAliment, quantite);
+                }
+            }
+        }
+        return null;
+    }
 
 }
