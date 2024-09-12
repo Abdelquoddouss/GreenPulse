@@ -40,7 +40,6 @@ public class ConsommationRepository {
         }
     }
 
-
     private void ajouterTransport(Transport consommation) throws SQLException {
         String query = "INSERT INTO transport (consommation_id, distance_parcourue, type_vehicule) VALUES (?, ?, ?)";
 
@@ -64,18 +63,15 @@ public class ConsommationRepository {
         }
     }
 
-
     private void ajouterAlimentation(Alimentation consommation) throws SQLException {
         String query = "INSERT INTO alimentation (consommation_id, poids, type_aliment) VALUES (?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setInt(1, obtenirDernierIdConsommation()); // Obtenir l'ID de la consommation récemment insérée
+            ps.setInt(1, obtenirDernierIdConsommation());
             ps.setDouble(2, consommation.getPoids());
             ps.setString(3, consommation.getTypeAliment());
             ps.executeUpdate();
         }
     }
-
-
 
     private int obtenirDernierIdConsommation() throws SQLException {
         String query = "SELECT currval(pg_get_serial_sequence('consommations','id'))";

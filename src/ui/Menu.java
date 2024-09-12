@@ -28,7 +28,7 @@ public class Menu {
             System.out.println("2. Afficher les utilisateurs");
             System.out.println("3. Modifier un utilisateur");
             System.out.println("4. Supprimer un utilisateur");
-            System.out.println("5. Ajouter une consommation");
+            System.out.println("5. Gérer les consommations");
             System.out.println("0. Quitter");
             System.out.print("Choisissez une option: ");
             choix = scanner.nextInt();
@@ -40,7 +40,6 @@ public class Menu {
                     break;
                 case 2:
                     afficherUtilisateurs();
-
                     break;
                 case 3:
                     modifierUtilisateur();
@@ -49,7 +48,7 @@ public class Menu {
                     supprimerUtilisateur();
                     break;
                 case 5:
-                    ajouterConsommation();
+                    affichageMenuConsommation();
                     break;
                 case 0:
                     System.out.println("Au revoir !");
@@ -123,6 +122,42 @@ public class Menu {
         }
 
         gestionUser.deleteUser(utilisateur);
+    }
+
+    public void affichageMenuConsommation() {
+        int choix;
+        do {
+            System.out.println("\n=== Menu Consommation ===");
+            System.out.println("1. Ajouter une consommation");
+            System.out.println("2. Afficher les consommations");
+            System.out.println("3. Modifier une consommation");
+            System.out.println("4. Supprimer une consommation");
+            System.out.println("0. Retour au menu principal");
+            System.out.print("Choisissez une option: ");
+            choix = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choix) {
+                case 1:
+                    ajouterConsommation();
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+
+                    break;
+                case 4:
+
+                    break;
+                case 0:
+                    System.out.println("Retour au menu principal.");
+                    break;
+                default:
+                    System.out.println("Choix invalide.");
+                    break;
+            }
+        } while (choix != 0);
     }
 
 
