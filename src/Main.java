@@ -11,7 +11,7 @@ public class Main {
         Connection conn = Connextion.getInstance().getConnection();
         GestionUser gestionUser = new GestionUser();
 
-        GestionConsommation gestionConsommation = new GestionConsommation(conn);
+        GestionConsommation gestionConsommation = new GestionConsommation();
 
         Menu menu = new Menu(gestionUser, gestionConsommation);
         menu.affichageMenu();

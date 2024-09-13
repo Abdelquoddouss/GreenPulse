@@ -1,22 +1,20 @@
 package Repository;
 
-import entities.Alimentation;
-import entities.CarbonConsommation;
-import entities.Logement;
-import entities.Transport;
+import configuration.Connextion;
+import entities.*;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ConsommationRepository {
 
-    private static Connection connection;
+    private static Connection connection = Connextion.getInstance().getConnection();
+    private static Map<Integer, List<CarbonConsommation>> consommationsParUtilisateur = new HashMap<>();
 
-    public ConsommationRepository(Connection connection) {
-        this.connection = connection;
-    }
 
     public void ajouterConsommation(int utilisateurId, CarbonConsommation consommation, double impactCarbone) {
 
@@ -172,5 +170,22 @@ public class ConsommationRepository {
         }
         return null;
     }
+
+
+    public static Double getTotalConsommation(Utilisateur user){
+        String query = "SELECT SUM(consomationImpact) FROM consommations WHERE utilisateur_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, user.getId());
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0.0;
+    }
+
 
 }

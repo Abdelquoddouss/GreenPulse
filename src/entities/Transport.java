@@ -14,6 +14,8 @@ public class Transport extends CarbonConsommation {
         this.typeDeVehicule = typeDeVehicule;
     }
 
+
+
     public double getDistanceParcourue() {
         return distanceParcourue;
     }

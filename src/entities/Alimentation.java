@@ -13,6 +13,10 @@ public class Alimentation extends CarbonConsommation {
         this.typeAliment = typeAliment;
     }
 
+    public Alimentation(LocalDate startDate, LocalDate endDate, String consommationType, int quantite) {
+        super(startDate, endDate, consommationType, quantite);
+    }
+
     @Override
     public double calculerImpact() {
         switch (typeAliment.toLowerCase()) {
@@ -36,5 +40,13 @@ public class Alimentation extends CarbonConsommation {
 
     public String getTypeAliment() {
         return typeAliment;
+    }
+
+    public void setPoids(double poids) {
+        this.poids = poids;
+    }
+
+    public void setTypeAliment(String typeAliment) {
+        this.typeAliment = typeAliment;
     }
 }

@@ -1,14 +1,18 @@
 package Repository;
 
 import configuration.Connextion;
-import entities.Utilisateur;
+import entities.*;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserRepository {
-    private Connection connection;
+    private static Connection connection;
+    private static Map<Integer, Utilisateur> utilisateurs = new HashMap<>();
+    private static int currentId = 1;
 
     public UserRepository() {
         this.connection = Connextion.getInstance().getConnection();
@@ -30,7 +34,6 @@ public class UserRepository {
         }
     }
 
-
     public List<Utilisateur> getAllUsers() {
         List<Utilisateur> users = new ArrayList<>();
         String query = "SELECT * FROM utilisateurs";
@@ -40,7 +43,7 @@ public class UserRepository {
 
             while (rs.next()) {
                 Utilisateur utilisateur = new Utilisateur();
-                utilisateur.setId(rs.getLong("id"));
+                utilisateur.setId(rs.getInt("id"));
                 utilisateur.setName(rs.getString("name"));
                 utilisateur.setAge(rs.getInt("age"));
                 users.add(utilisateur);
@@ -76,7 +79,7 @@ public class UserRepository {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     Utilisateur utilisateur = new Utilisateur();
-                    utilisateur.setId(rs.getLong("id"));
+                    utilisateur.setId(rs.getInt("id"));
                     utilisateur.setName(rs.getString("name"));
                     utilisateur.setAge(rs.getInt("age"));
                     return utilisateur;
@@ -106,4 +109,5 @@ public class UserRepository {
 
 
 
- }
+
+}

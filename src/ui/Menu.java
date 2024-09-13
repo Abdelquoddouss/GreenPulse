@@ -17,7 +17,9 @@ public class Menu {
     public Menu(GestionUser gestionUser, GestionConsommation gestionConsommation) {
         this.gestionUser = new GestionUser();
         this.scanner = new Scanner(System.in);
-        this.gestionConsommation = this.gestionConsommation;
+        this.gestionConsommation = gestionConsommation;
+        this.scanner = new Scanner(System.in);
+
 
     }
 
@@ -30,6 +32,7 @@ public class Menu {
             System.out.println("3. Modifier un utilisateur");
             System.out.println("4. Supprimer un utilisateur");
             System.out.println("5. Gérer les consommations");
+            System.out.println("6. Filtrer les utilisateurs par consommation");
             System.out.println("0. Quitter");
             System.out.print("Choisissez une option: ");
             choix = scanner.nextInt();
@@ -50,6 +53,9 @@ public class Menu {
                     break;
                 case 5:
                     affichageMenuConsommation();
+                    break;
+                case 6:
+                    filtrerUserParConsommation();
                     break;
                 case 0:
                     System.out.println("Au revoir !");
@@ -183,12 +189,22 @@ public class Menu {
         }
     }
 
-
-
-
-
-
-
+    public void filtrerUserParConsommation(){
+        List<Utilisateur> utilisateursFiltres = gestionUser.filterUsersByTotalConsommation();
+        if (utilisateursFiltres.isEmpty()) {
+            System.out.println("Aucun utilisateur avec une consommation supérieure à 3000 KgCO₂eq.");
+        } else {
+            System.out.println("\nUtilisateurs avec une consommation > 3000 KgCO₂eq :");
+            for (Utilisateur utilisateur : utilisateursFiltres) {
+                System.out.println("ID: " + utilisateur.getId() + ", Nom: " + utilisateur.getName() + ", Âge: " + utilisateur.getAge());
+                System.out.println("Consommations :");
+                for (CarbonConsommation consommation : utilisateur.getConsommation()) {
+                    System.out.println("- Type: " + consommation.getConsommationType() + ", Quantité: " + consommation.getQuantite() + ", Impact Carbone: " + consommation.calculerImpact());
+                }
+                System.out.println();
+            }
+        }
+    }
 
 
 

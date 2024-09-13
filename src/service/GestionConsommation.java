@@ -1,10 +1,8 @@
 package service;
 
 import Repository.ConsommationRepository;
-import entities.Alimentation;
-import entities.CarbonConsommation;
-import entities.Logement;
-import entities.Transport;
+import configuration.Connextion;
+import entities.*;
 
 import java.sql.Connection;
 import java.time.LocalDate;
@@ -12,15 +10,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class GestionConsommation {
-    private static Connection connection;
-    private static Scanner scanner;
-
-
-    public GestionConsommation(Connection connection) {
-        this.connection= connection;
-        this.scanner = new Scanner(System.in);
-    }
-
+    private static final Scanner scanner = new Scanner(System.in);
+    private static ConsommationRepository consommationRepository = new ConsommationRepository(); ;
 
 
     public static void ajouterConsommation(int utilisateurId) {
@@ -76,13 +67,12 @@ public class GestionConsommation {
         }
 
         double impactCarbone = consommation.calculerImpact();
-        ConsommationRepository consommationRepository = new ConsommationRepository(connection);
         consommationRepository.ajouterConsommation(utilisateurId, consommation, impactCarbone);
     }
 
-    // Dans la classe GestionConsommation
     public static List<CarbonConsommation> obtenirConsommationsParUtilisateur(int utilisateurId) {
-        ConsommationRepository repository = new ConsommationRepository(connection);
-        return repository.obtenirConsommationsParUtilisateur(utilisateurId);
+
+        return consommationRepository.obtenirConsommationsParUtilisateur(utilisateurId);
     }
+
 }

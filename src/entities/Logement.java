@@ -35,4 +35,12 @@ public class Logement extends CarbonConsommation{
     public String getTypeEnergie() {
         return typeEnergie;
     }
+
+    public void setConsommationEnergie(double consommationEnergie) {
+        this.consommationEnergie = consommationEnergie;
+    }
+
+    public void setTypeEnergie(String typeEnergie) {
+        this.typeEnergie = typeEnergie;
+    }
 }

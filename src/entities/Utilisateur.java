@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Utilisateur {
-    private long id;
+    private int id;
     private String name;
     private int age;
     private List<CarbonConsommation> consommation;
 
-    public Utilisateur(long id, String name, int age) {
+    public Utilisateur(int id, String name, int age) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -19,11 +19,11 @@ public class Utilisateur {
     public Utilisateur() {
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
