@@ -36,6 +36,7 @@ public class Menu {
             System.out.println("4. Supprimer un utilisateur");
             System.out.println("5. Gérer les consommations");
             System.out.println("6. Filtrer les utilisateurs par consommation");
+            System.out.println("7. Générer les rapports des utilisateurs");
             System.out.println("0. Quitter");
             System.out.print("Choisissez une option: ");
             choix = scanner.nextInt();
@@ -60,6 +61,9 @@ public class Menu {
                 case 6:
                     filtrerUserParConsommation();
                     break;
+                case 7:
+                    genererRapportParUtilisateur();
+                    break;
                 case 0:
                     System.out.println("Au revoir !");
                     break;
@@ -69,6 +73,8 @@ public class Menu {
             }
         } while (choix != 0);
     }
+
+
 
     private void ajouterUtilisateur() {
         System.out.print("Entrez le nom: ");
@@ -83,19 +89,26 @@ public class Menu {
 
     private void afficherUtilisateurs() {
         List<Utilisateur> utilisateurs = gestionUser.getAllUsers();
+        System.out.println("=========================================");
+        System.out.println("      *** LISTE DES UTILISATEURS ***     ");
+        System.out.println("=========================================");
         if (utilisateurs.isEmpty()) {
             System.out.println("Aucun utilisateur trouvé.");
         } else {
             for (Utilisateur utilisateur : utilisateurs) {
-                System.out.println("ID: " + utilisateur.getId());
-                System.out.println("Nom: " + utilisateur.getName());
-                System.out.println("Âge: " + utilisateur.getAge());
-                System.out.println("--------");
+                System.out.println("🔹 ID : " + utilisateur.getId());
+                System.out.println("🔹 Nom : " + utilisateur.getName());
+                System.out.println("🔹 Âge : " + utilisateur.getAge());
+                System.out.println("------------------------------");
             }
         }
     }
 
     private void modifierUtilisateur() {
+        System.out.println("=========================================");
+        System.out.println("       *** MODIFIER UTILISATEUR ***      ");
+        System.out.println("=========================================");
+
         System.out.print("Entrez l'ID de l'utilisateur à modifier: ");
         long id = scanner.nextLong();
         scanner.nextLine();
@@ -173,7 +186,6 @@ public class Menu {
     }
 
     private void afficherUtilisateursTriesParConsommation() {
-        GestionUser gestionUser = new GestionUser();
         List<Utilisateur> utilisateursTries = gestionUser.getUsersSortedByTotalConsommation();
 
         if (utilisateursTries.isEmpty()) {
@@ -271,19 +283,54 @@ public class Menu {
         }
     }
 
-    public void filtrerUserParConsommation() {
-
+    private void filtrerUserParConsommation() {
         List<Utilisateur> utilisateursFiltres = gestionUser.filterUsersByTotalConsommation();
 
         if (utilisateursFiltres.isEmpty()) {
-            System.out.println("Aucun utilisateur avec une consommation supérieure à  KgCO₂eq.");
+            System.out.println("Aucun utilisateur avec une consommation supérieure à 3000 KgCO₂eq.");
         } else {
-            System.out.println("\nUtilisateurs avec une consommation >  3000 KgCO₂eq :");
+            System.out.println("\nUtilisateurs avec une consommation > 3000 KgCO₂eq :");
             for (Utilisateur utilisateur : utilisateursFiltres) {
                 System.out.println("ID: " + utilisateur.getId() + ", Nom: " + utilisateur.getName() + ", Âge: " + utilisateur.getAge());
                 System.out.println("Consommations :");
-                System.out.println(gestionConsommation.getTotalConsommation(utilisateur));
+                // Assuming getTotalConsommation() is a method in GestionConsommation
+                double totalConsommation = gestionConsommation.getTotalConsommation(utilisateur);
+                System.out.println("Consommation Totale: " + totalConsommation + " KgCO₂eq");
             }
+        }
+    }
+
+
+    private void genererRapportParUtilisateur() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Entrez l'ID de l'utilisateur pour lequel vous souhaitez générer un rapport :");
+        int utilisateurId = scanner.nextInt();
+        GestionUser utilisaturs = new GestionUser();
+        Utilisateur utilisateur = utilisaturs.getUserById(utilisateurId);
+        if (utilisateur != null) {
+            ConsommationRepository Conn = new ConsommationRepository();
+            List<CarbonConsommation> consommations = Conn.obtenirConsommationsParUtilisateur(utilisateurId);
+
+            if (consommations.isEmpty()) {
+                System.out.println("Aucune consommation trouvée pour cet utilisateur.");
+            } else {
+                afficherRapport(utilisateur, consommations);
+            }
+        } else {
+            System.out.println("Utilisateur non trouvé.");
+        }
+    }
+
+    private void afficherRapport(Utilisateur utilisateur, List<CarbonConsommation> consommations) {
+        System.out.println("=== Rapport pour l'utilisateur : " + utilisateur.getName() + " ===");
+
+        for (CarbonConsommation consommation : consommations) {
+            System.out.println("Type de consommation : " + consommation.getClass().getSimpleName());
+            System.out.println("Quantité : " + consommation.getQuantite());
+            System.out.println("Impact carbone : " + consommation.getImpactCarbone());
+            System.out.println("Période : Du " + consommation.getStartDate() + " au " + consommation.getEndDate());
+            System.out.println("---------------------------------");
         }
     }
 

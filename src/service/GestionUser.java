@@ -26,7 +26,7 @@ public class GestionUser {
 
     public void createUser(Utilisateur utilisateur) {
         userRepository.create(utilisateur);
-        System.out.println("Utilisateur créé avec succès.");
+        System.out.println("✅ Utilisateur créé avec succès !");
     }
 
 
@@ -75,6 +75,7 @@ public class GestionUser {
     public ConsommationRepository getConsommationRepository() {
         return consommationRepository;
     }
+
 
 
 

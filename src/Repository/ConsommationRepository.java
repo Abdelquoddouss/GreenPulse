@@ -231,7 +231,5 @@ public class ConsommationRepository {
         return inactiveUsers;
     }
 
-    
-
 
 }
