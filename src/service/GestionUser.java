@@ -15,9 +15,12 @@ public class GestionUser {
 
     private UserRepository userRepository;
 
+    private ConsommationRepository consommationRepository;
+
 
     public GestionUser() {
         this.userRepository = new UserRepository();
+        this.consommationRepository = new ConsommationRepository();
     }
 
 
@@ -46,20 +49,17 @@ public class GestionUser {
         System.out.println("Utilisateur supprimé avec succès.");
     }
 
-   public List<Utilisateur> filterUsersByTotalConsommation(){
-         List<Utilisateur> utilisateurs = userRepository.getAllUsers();
+    public  List<Utilisateur> filterUsersByTotalConsommation() {
 
-         List<Utilisateur> orderUser = utilisateurs.stream()
-                 .sorted((usr1 ,usr2) -> Double.compare(ConsommationRepository.getTotalConsommation(usr1),ConsommationRepository.getTotalConsommation(usr2)))
-                    .collect(Collectors.toList());
-            return orderUser;
+        List<Utilisateur> users = getAllUsers();
 
-  }
+        return  users.stream()
+                .filter(u -> consommationRepository.getTotalConsommation(u) > 3000)
+                .collect(Collectors.toList());
 
 
 
-
-
+    }
 
 
 

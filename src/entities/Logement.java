@@ -16,14 +16,11 @@ public class Logement extends CarbonConsommation{
     public double calculerImpact() {
         switch (typeEnergie.toLowerCase()) {
             case "electricite":
-                impactCarbone = consommationEnergie * 1.5;
+                impactCarbone = super.getQuantite() * consommationEnergie * 1.5;
                 break;
             case "gaz":
-                impactCarbone = consommationEnergie * 2.0;
+                impactCarbone = super.getQuantite() * consommationEnergie * 2.0;
                 break;
-            default:
-                impactCarbone = 0;
-                System.out.println("Type d'énergie inconnu.");
         }
         return impactCarbone;
     }

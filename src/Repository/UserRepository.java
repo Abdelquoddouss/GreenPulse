@@ -4,10 +4,12 @@ import configuration.Connextion;
 import entities.*;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class UserRepository {
     private static Connection connection;
@@ -105,6 +107,17 @@ public class UserRepository {
         }
     }
 
+    public List<Utilisateur> filterUsersByAverageConsommation(LocalDate startDate, LocalDate endDate) {
+        List<Utilisateur> utilisateurs = getAllUsers();  // Get all users
+
+        return utilisateurs.stream()
+                .filter(user -> ConsommationRepository.getAverageConsommation(user, startDate, endDate) > 0)
+                .sorted((user1, user2) -> Double.compare(
+                        ConsommationRepository.getAverageConsommation(user2, startDate, endDate),
+                        ConsommationRepository.getAverageConsommation(user1, startDate, endDate)
+                ))
+                .collect(Collectors.toList());
+    }
 
 
 

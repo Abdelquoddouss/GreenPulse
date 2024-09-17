@@ -1,10 +1,13 @@
 package ui;
 
+import Repository.ConsommationRepository;
+import Repository.UserRepository;
 import entities.CarbonConsommation;
 import entities.Utilisateur;
 import service.GestionConsommation;
 import service.GestionUser;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
@@ -137,6 +140,7 @@ public class Menu {
             System.out.println("\n=== Menu Consommation ===");
             System.out.println("1. Ajouter une consommation");
             System.out.println("2. Afficher les consommations");
+            System.out.println("3. Afficher la moyenne des consommations");
             System.out.println("0. Retour au menu principal");
             System.out.print("Choisissez une option: ");
             choix = scanner.nextInt();
@@ -149,15 +153,53 @@ public class Menu {
                 case 2:
                     afficherConsommations(scanner);
                     break;
+                case 3:
+                    afficherMoyenneConsommation();
+                    break;
                 case 0:
                     affichageMenu();
-                break;
+                    break;
                 default:
                     System.out.println("Choix invalide.");
                     break;
             }
         } while (choix != 0);
     }
+
+
+    private void afficherMoyenneConsommation() {
+        System.out.print("Entrez l'ID de l'utilisateur pour voir la moyenne de ses consommations: ");
+        int utilisateurId = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Entrez la date de début (format YYYY-MM-DD): ");
+        String debutStr = scanner.nextLine();
+        LocalDate dateDebut = LocalDate.parse(debutStr);
+
+        System.out.print("Entrez la date de fin (format YYYY-MM-DD): ");
+        String finStr = scanner.nextLine();
+        LocalDate dateFin = LocalDate.parse(finStr);
+
+        GestionUser utilisateurService = new GestionUser();
+        Utilisateur utilisateur = utilisateurService.getUserById(utilisateurId);
+
+        if (utilisateur == null) {
+            System.out.println("Utilisateur non trouvé.");
+            return;
+        }
+
+        // Calcul de la moyenne
+        double moyenneConsommation = ConsommationRepository.getAverageConsommation(utilisateur, dateDebut, dateFin);
+
+        // Affichage de la moyenne
+        if (moyenneConsommation == 0) {
+            System.out.println("Aucune consommation trouvée pour cet utilisateur pendant cette période.");
+        } else {
+            System.out.println("La moyenne des consommations pour l'utilisateur " + utilisateur.getName() + " entre " + dateDebut + " et " + dateFin + " est de : " + moyenneConsommation + " KgCO₂eq.");
+        }
+    }
+
+
 
     private void ajouterConsommation() {
         System.out.print("Entrez l'ID de l'utilisateur pour ajouter une consommation : ");
@@ -189,19 +231,18 @@ public class Menu {
         }
     }
 
-    public void filtrerUserParConsommation(){
+    public void filtrerUserParConsommation() {
+
         List<Utilisateur> utilisateursFiltres = gestionUser.filterUsersByTotalConsommation();
+
         if (utilisateursFiltres.isEmpty()) {
-            System.out.println("Aucun utilisateur avec une consommation supérieure à 3000 KgCO₂eq.");
+            System.out.println("Aucun utilisateur avec une consommation supérieure à  KgCO₂eq.");
         } else {
-            System.out.println("\nUtilisateurs avec une consommation > 3000 KgCO₂eq :");
+            System.out.println("\nUtilisateurs avec une consommation >  3000 KgCO₂eq :");
             for (Utilisateur utilisateur : utilisateursFiltres) {
                 System.out.println("ID: " + utilisateur.getId() + ", Nom: " + utilisateur.getName() + ", Âge: " + utilisateur.getAge());
                 System.out.println("Consommations :");
-                for (CarbonConsommation consommation : utilisateur.getConsommation()) {
-                    System.out.println("- Type: " + consommation.getConsommationType() + ", Quantité: " + consommation.getQuantite() + ", Impact Carbone: " + consommation.calculerImpact());
-                }
-                System.out.println();
+                System.out.println(gestionConsommation.getTotalConsommation(utilisateur));
             }
         }
     }

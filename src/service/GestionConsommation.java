@@ -75,4 +75,10 @@ public class GestionConsommation {
         return consommationRepository.obtenirConsommationsParUtilisateur(utilisateurId);
     }
 
+    public Double getTotalConsommation(Utilisateur utilisateur){
+        return consommationRepository.getTotalConsommation(utilisateur);
+    }
+
+
+
 }

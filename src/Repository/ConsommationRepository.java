@@ -171,8 +171,7 @@ public class ConsommationRepository {
         return null;
     }
 
-
-    public static Double getTotalConsommation(Utilisateur user){
+    public double getTotalConsommation(Utilisateur user){
         String query = "SELECT SUM(consomationImpact) FROM consommations WHERE utilisateur_id = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, user.getId());
@@ -186,6 +185,25 @@ public class ConsommationRepository {
         }
         return 0.0;
     }
+
+    public static double getAverageConsommation(Utilisateur user, LocalDate startDate, LocalDate endDate) {
+        String query = "SELECT AVG(consomationImpact) FROM consommations WHERE utilisateur_id = ? AND startDate >= ? AND endDate <= ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, user.getId());
+            ps.setDate(2, Date.valueOf(startDate));
+            ps.setDate(3, Date.valueOf(endDate));
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0.0;  // Return 0 if no consumption is found for the period
+    }
+
 
 
 }
