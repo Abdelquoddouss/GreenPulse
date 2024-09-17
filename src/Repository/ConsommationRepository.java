@@ -205,5 +205,33 @@ public class ConsommationRepository {
     }
 
 
+    public List<Utilisateur> getInactiveUsers(LocalDate startDate, LocalDate endDate) {
+        List<Utilisateur> inactiveUsers = new ArrayList<>();
+        String query = "SELECT u.id, u.name, u.age " +
+                "FROM utilisateurs u " +
+                "LEFT JOIN consommations c ON u.id = c.utilisateur_id " +
+                "AND c.startDate >= ? AND c.endDate <= ? " +
+                "WHERE c.utilisateur_id IS NULL";
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setDate(1, Date.valueOf(startDate));
+            ps.setDate(2, Date.valueOf(endDate));
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Utilisateur utilisateur = new Utilisateur();
+                    utilisateur.setId(rs.getInt("id"));
+                    utilisateur.setName(rs.getString("name"));
+                    utilisateur.setAge(rs.getInt("age"));
+                    inactiveUsers.add(utilisateur);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return inactiveUsers;
+    }
+
+    
+
 
 }

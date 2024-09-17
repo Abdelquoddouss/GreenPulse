@@ -61,6 +61,22 @@ public class GestionUser {
 
     }
 
+    public List<Utilisateur> getUsersSortedByTotalConsommation() {
+        List<Utilisateur> utilisateurs = getAllUsers();
+
+        return utilisateurs.stream()
+                .sorted((user1, user2) -> Double.compare(
+                        consommationRepository.getTotalConsommation(user2),
+                        consommationRepository.getTotalConsommation(user1)
+                ))
+                .collect(Collectors.toList());
+    }
+
+    public ConsommationRepository getConsommationRepository() {
+        return consommationRepository;
+    }
+
+
 
 
 }

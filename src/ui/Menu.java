@@ -70,7 +70,6 @@ public class Menu {
         } while (choix != 0);
     }
 
-
     private void ajouterUtilisateur() {
         System.out.print("Entrez le nom: ");
         String name = scanner.nextLine();
@@ -95,7 +94,6 @@ public class Menu {
             }
         }
     }
-
 
     private void modifierUtilisateur() {
         System.out.print("Entrez l'ID de l'utilisateur à modifier: ");
@@ -141,6 +139,8 @@ public class Menu {
             System.out.println("1. Ajouter une consommation");
             System.out.println("2. Afficher les consommations");
             System.out.println("3. Afficher la moyenne des consommations");
+            System.out.println("4. Afficher les utilisateurs inactifs");
+            System.out.println("5. Trier les utilisateurs par consommation totale");
             System.out.println("0. Retour au menu principal");
             System.out.print("Choisissez une option: ");
             choix = scanner.nextInt();
@@ -156,6 +156,12 @@ public class Menu {
                 case 3:
                     afficherMoyenneConsommation();
                     break;
+                case 4:
+                    afficherUtilisateursInactifs();
+                    break;
+                case 5:
+                    afficherUtilisateursTriesParConsommation();
+                    break;
                 case 0:
                     affichageMenu();
                     break;
@@ -166,6 +172,42 @@ public class Menu {
         } while (choix != 0);
     }
 
+    private void afficherUtilisateursTriesParConsommation() {
+        GestionUser gestionUser = new GestionUser();
+        List<Utilisateur> utilisateursTries = gestionUser.getUsersSortedByTotalConsommation();
+
+        if (utilisateursTries.isEmpty()) {
+            System.out.println("Aucun utilisateur trouvé.");
+        } else {
+            System.out.println("Utilisateurs triés par consommation totale :");
+            for (Utilisateur user : utilisateursTries) {
+                double totalConsommation = gestionUser.getConsommationRepository().getTotalConsommation(user);
+                System.out.println("ID: " + user.getId() + " - Nom: " + user.getName() + " - Consommation Totale: " + totalConsommation + " KgCO₂eq");
+            }
+        }
+    }
+
+    private void afficherUtilisateursInactifs() {
+        System.out.print("Entrez la date de début (format YYYY-MM-DD): ");
+        String debutStr = scanner.nextLine();
+        LocalDate dateDebut = LocalDate.parse(debutStr);
+
+        System.out.print("Entrez la date de fin (format YYYY-MM-DD): ");
+        String finStr = scanner.nextLine();
+        LocalDate dateFin = LocalDate.parse(finStr);
+
+        ConsommationRepository repository = new ConsommationRepository();
+        List<Utilisateur> inactiveUsers = repository.getInactiveUsers(dateDebut, dateFin);
+
+        if (inactiveUsers.isEmpty()) {
+            System.out.println("Aucun utilisateur inactif trouvé pour la période spécifiée.");
+        } else {
+            System.out.println("Utilisateurs inactifs pour la période du " + dateDebut + " au " + dateFin + ":");
+            for (Utilisateur user : inactiveUsers) {
+                System.out.println(user.getId() + " - " + user.getName() + " - " + user.getAge());
+            }
+        }
+    }
 
     private void afficherMoyenneConsommation() {
         System.out.print("Entrez l'ID de l'utilisateur pour voir la moyenne de ses consommations: ");
@@ -198,8 +240,6 @@ public class Menu {
             System.out.println("La moyenne des consommations pour l'utilisateur " + utilisateur.getName() + " entre " + dateDebut + " et " + dateFin + " est de : " + moyenneConsommation + " KgCO₂eq.");
         }
     }
-
-
 
     private void ajouterConsommation() {
         System.out.print("Entrez l'ID de l'utilisateur pour ajouter une consommation : ");
